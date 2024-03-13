@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TMDB</title>
+  </head>
+  <body>
+    <h1>The Movie DataBase</h1>
+    <input id="recherche" type="text" />
+    <input id="submit" type="submit" />
+    <div id="movie"></div>
+  </body>
+  <script>
+    function fetchmovie(movie, api_key) {
+      return fetch(
+        "https://api.themoviedb.org/3/movie/" +
+          movie +
+          "?api_key=" +
+          api_key +
+          "&language=fr-FR"
+      ).then((response) => response.json());
+    }
+    async function displayMovie(movie, api_key) {
+      const data = await fetchmovie(movie, api_key);
+      document.querySelector("#movie").innerHTML = `
+            <h2>${data.title}</h2>
+            <img src="https://image.tmdb.org/t/p/original/${data.poster_path}" alt="${data.title}">
+            `;
+    }
+    document.querySelector("#submit").addEventListener("click", () => {
+      const recherche = document.querySelector("#recherche").value;
+      displayMovie(recherche, api_key);
+    });
+  </script>
+</html>

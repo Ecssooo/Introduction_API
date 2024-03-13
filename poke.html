@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PokeAPI</title>
+    <style>
+      body {
+        background-color: #9c9c9c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pokemon</h1>
+    <input id="recherche" type="text" />
+    <input id="submit" type="submit" />
+    <div id="pokemon"></div>
+    <script>
+      function fetchpokemon(pokemon) {
+        return fetch("https://pokeapi.co/api/v2/pokemon/" + pokemon).then(
+          (response) => response.json()
+        );
+      }
+      async function displayPokemon(pokemon) {
+        const data = await fetchpokemon(pokemon);
+        document.querySelector("#pokemon").innerHTML = `
+            <h2>${data.name}</h2>
+            <img id="img_pokemon" src="${data.sprites.front_default}" alt="${data.name}">
+            `;
+      }
+      document.querySelector("#submit").addEventListener("click", () => {
+        const recherche = document.querySelector("#recherche").value;
+        displayPokemon(recherche);
+      });
+    </script>
+  </body>
+</html>
